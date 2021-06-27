@@ -19,7 +19,7 @@ class Controller(object):
             time.sleep(2. / 100)
         time.sleep(1.5)
         print('-----------------------------------------------------------------')
-        print(Fore.WHITE + '[' + Fore.GREEN + '+' + Fore.WHITE + ']Made By AL104 & Droid | Github:https://github.com/abalesluke')
+        print(Fore.WHITE + '[' + Fore.GREEN + '+' + Fore.WHITE + ']Made By Droid | Github:https://github.com/FonderElite')
         print('-----------------------------------------------------------------')
         time.sleep(1.5)
 
