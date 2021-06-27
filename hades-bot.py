@@ -64,15 +64,15 @@ class Controller(object):
 
         except Exception as Err:
             print(Err)
-            print('\nUsage for help: python3 <hades-bot.py> -h ')
+            print('\nUsage for help: python3 <hades-bot.py> -h \n')
 
     @staticmethod
     def time_elapsed():
         start = timer()
         end = timer()
         counter = lambda start_time,end_time : timedelta(seconds=end_time-start_time)
-        
-        print("{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Time Elapsed: " + str(counter(start,end)) + "s")
+        print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Time Elapsed: " + str(counter(start,end)) + "s\n")
+
 
 if __name__ == "__main__":
     main_class = Controller(args.attackerip,args.port)
@@ -109,3 +109,4 @@ if __name__ == "__main__":
     listener.join()
     time_elapsed.start()
     time_elapsed.join()
+                           
