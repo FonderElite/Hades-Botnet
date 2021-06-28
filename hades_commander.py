@@ -17,11 +17,16 @@ class Controller(object):
         print('-----------------------------------------------------------------')
         time.sleep(1.5)
     def command(self):
-        table = [["Options","Severity"],["Ddos-attack",5],["Backdoor",4],["Auto-Root",5]]
+        table = [["Options","Severity"],["Ddos-attack(0)",5],["Backdoor(1)",4],["Auto-Root(2)",5]]
         print(tabulate(table,headers='firstrow',tablefmt='grid'))
+        if  args.option == 0:
+            print('Proceeding with a DDOS-Attack')
+
 if __name__ == '__main__':
     class_object = Controller()
     command = Process(target=class_object.command)
+    banner = Proces(target=class_object.show_banner,args=('''
+
+        ''',))
     command.start()
     command.join()
-                  
