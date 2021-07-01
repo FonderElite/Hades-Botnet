@@ -34,7 +34,11 @@ def execute():
     if choice == "0":
         ip = input("Server Ip: ")
         port = int(input("Server Port: "))
-        s.connect((ip, port)) 
+        while True:
+            s.connect((ip, port))
+            cmd = bytes(input("Input: "),'utf-8')
+            s.send(cmd)
+
     else:
         print(f'{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Invalid Option.')
 
@@ -50,4 +54,3 @@ ______________________________________________________________
         ''')
     options()
     execute()
-                
