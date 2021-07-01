@@ -22,11 +22,11 @@ class Controller(object):
                 sys.stdout.write(bg.BLACK + Fore.YELLOW + c)
                 sys.stdout.flush()
                 time.sleep(1.2 / 100)
-                time.sleep(1.5)
-                print('-----------------------------------------------------------------')
-                print(Fore.WHITE + '[' + Fore.GREEN + '+' + Fore.WHITE + ']Made By Droid | Github:https://github.com/FonderElite')
-                print('-----------------------------------------------------------------')
-                time.sleep(1.5)
+            time.sleep(1.5)
+            print('-----------------------------------------------------------------')
+            print(Fore.WHITE + '[' + Fore.GREEN + '+' + Fore.WHITE + ']Made By Droid | Github:https://github.com/FonderElite')
+            print('-----------------------------------------------------------------')
+            time.sleep(1.5)
         else:
             pass
 
@@ -105,7 +105,7 @@ if __name__ == "__main__":
             :'  .`.  .  .'.  `:
             :' ::.       .:: `:
             :' `:::     :::' `:
-             `.  ``     ''  .'
+            : `.  ``     ''  .'
               :`...........':
               ` :`.     .': '
                |            |
@@ -120,4 +120,3 @@ if __name__ == "__main__":
     listener.join()
     time_elapsed.start()
     time_elapsed.join()
-
