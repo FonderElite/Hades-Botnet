@@ -35,8 +35,8 @@ class HadesCommander:
 {blue}┌──({host_name}㉿Hades)-[{cwd}]
 └─Option$ '''.format(host_name=host,cwd=os.getcwd(),blue=Fore.BLUE,white=Fore.WHITE)
         print(root_fmt,end='')
-        choice = input("")
-        if choice == "0":
+        choice = input("").lower()
+        if choice == "0" or "Ddos-attack":
             ip = input("Bot Ip: ")
             port = int(input("Bot Port: "))
             global url_flood
@@ -62,7 +62,7 @@ class HadesCommander:
             elif url_proxy != "y" or url_proxy != "n":
                 print(f"{Fore.WHITE}[{Fore.RED}-{Fore.WHITE}]Invalid Option.")
         else:
-            print(f'{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Invalid Option.')
+            print(f'{Fore.WHITE}[{Fore.RED}-{Fore.WHITE}]Invalid Option.')
 
 if __name__ == '__main__':
         class_obj = HadesCommander()
